@@ -34,9 +34,9 @@ def eval_genomes(genomes, config):
             frame += 1
 
             #Vektorialisieren der Bilder für den Input 
-            ob = cv2.resize(ob, (inx, iny))
+            ob = cv2.resize(ob, (input_x, input_y))
             ob = cv2.cvtColor(ob, cv2.COLOR_BGR2GRAY)
-            ob = np.reshape(ob, (inx,iny))
+            ob = np.reshape(ob, (input_x,input_y))
 
             imgarray = np.ndarray.flatten(ob)
 
