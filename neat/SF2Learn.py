@@ -11,7 +11,7 @@ def eval_genomes(genomes, config):
 
     for genome_id, genome in genomes:
         ob = env.reset()
-        input_x, input_y = env.observation_space.shape
+        input_x, input_y, input_c = env.observation_space.shape
 
         input_x = int(input_x/8)
         input_y = int(input_y/8)
