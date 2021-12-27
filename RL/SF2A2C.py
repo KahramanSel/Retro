@@ -7,7 +7,7 @@ import gym
 
 if __name__ == '__main__':
 
-    #Vektor-Wrapper für eine einzelne Umgebung. Für Multiprpzessierung sollte SubprocVecEnv genutzt werden
+    #Vektor-Wrapper für eine einzelne Umgebung. Für Multiprozessierung sollte SubprocVecEnv genutzt werden
     env = DummyVecEnv([lambda: retro.make('StreetFighterIISpecialChampionEdition-Genesis', state='dhalsimvszangief', record = '.')])
     #Nutzung des A2C-Algorithmus.PPO unstabiler und langsamer in dieser Anwendung.
     model = A2C('MlpPolicy', env, verbose=1, device = 'cuda', tensorboard_log="./log_SF2/")
