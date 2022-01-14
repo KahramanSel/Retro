@@ -21,6 +21,8 @@ def eval_genomes(genomes, config):
         current_max_fitness = 0
         fitness_current = 0
         frame = 0
+        newframe = 0
+        newframe2 = 0
         counter = 0
         player1health_max = 176
         player2health_max = 176
@@ -50,13 +52,14 @@ def eval_genomes(genomes, config):
             player1wins = info['matches_won']
             player2wins = info['player2wins']
             
-            #Abfragen wann Fitness steigt. 
+            #Abfragen wann Fitness dazu gewonnen wird. 
             if player2health < player2health_max:
                 fitness_current += 100
                 player2health_max = player2health
 
-            if player2health == 0:
+            if player2health == 0 and (newframe2 == frame or newframe2 == 0):
                 fitness_current += 500
+                newframe2 = frame
 
             if player1wins == 1:
                 counter = 0
@@ -64,13 +67,15 @@ def eval_genomes(genomes, config):
                 done = True
 
             if player1wins == 2 and player2wins != 2:
-                fitness_current += 100000
                 counter = 0
-                #done = True
+                if frame == newframe or newframe == 0:
+                    fitness_current += 100000
+                    newframe = frameWeit
+                    #done = True
 
             fitness_current += rew
             
-            #Wenn sich Fitness nicht verbessert,geht ein Counter hoch und wenn der counter 500 erreicht hat ,wird neu gestartet. 
+            #Counter für Abbruchbedingung 
             if fitness_current > current_max_fitness:
                 current_max_fitness = fitness_current
                 counter = 0
@@ -79,7 +84,7 @@ def eval_genomes(genomes, config):
             
             if done or counter == 500:
                 done = True
-                print(genome_id, fitness_current, counter)
+                print(genome_id, current_max_fitness)
                 
             genome.fitness = fitness_current
                 
