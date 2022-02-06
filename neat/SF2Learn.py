@@ -3,7 +3,7 @@ import numpy as np
 import cv2 
 import neat
 import pickle
-import gym
+import visualize
 
 
 def eval_genomes(genomes, config):
@@ -26,7 +26,6 @@ def eval_genomes(genomes, config):
         counter = 0
         player1health_max = 176
         player2health_max = 176
-        player1currenthealth = 176
         
         done = False
 
@@ -88,7 +87,7 @@ def eval_genomes(genomes, config):
                 
             genome.fitness = fitness_current
                 
-env = retro.make('StreetFighterIISpecialChampionEdition-Genesis', state='dhalsimvszangief', record = '.')            
+env = retro.make('StreetFighterIISpecialChampionEdition-Genesis', state='dhalsimvszangief', record='.')            
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                      neat.DefaultSpeciesSet, neat.DefaultStagnation,
                      'config')
@@ -99,15 +98,16 @@ p = neat.Population(config)
 p.add_reporter(neat.StdOutReporter(True))
 stats = neat.StatisticsReporter()
 p.add_reporter(stats)
-p.add_reporter(neat.Checkpointer(10))
+p.add_reporter(neat.Checkpointer(3))
 
 ob = env.reset()
+
 sieger = p.run(eval_genomes)
+
+visualize.draw_net(config, sieger, True)
 
 # Erstellen einer Pickledatei für video
 with open('sieg.pkl', 'wb') as output:
     pickle.dump(sieger, output, 1)
 
-
         
-
